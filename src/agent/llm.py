@@ -15,12 +15,12 @@ class LLM:
     class Local(Enum):
         OLLAMA = "ollama"
 
-def get_llm (llm : LLM.Cloud | LLM.Local, model : str  = "" ) -> BaseChatModel| None :
+def get_llm (llm : LLM.Cloud | LLM.Local, model : str  = "" ) -> BaseChatModel :
     if llm == LLM.Cloud.GOOGLE_CHAT:
         return ChatGoogleGenerativeAI(
             model=model,
             temperature = settings.LLM_TEMPERATURE,
-            ls_max_tokens = settings.LLM_MAX_TOKENS
+            max_tokens = settings.LLM_MAX_TOKENS
         )
     elif llm == LLM.Cloud.OPEN_AI:
         return ChatOpenAI(
@@ -41,4 +41,10 @@ def get_llm (llm : LLM.Cloud | LLM.Local, model : str  = "" ) -> BaseChatModel| 
             model= model,
             temperature= settings.LLM_TEMPERATURE
         )
-    return None
+    else :
+        raise ValueError("Unsupported LLM type")
+
+
+llm_module = get_llm(
+    LLM.Cloud.DEEPSEEK, model="deepseek-chat"
+)
