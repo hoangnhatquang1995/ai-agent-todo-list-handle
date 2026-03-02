@@ -1,14 +1,15 @@
 from state import AgentState,RouteDecision
-import llm 
+from agent.llm import llm_module 
 from tools import tools 
 from prompts import supervisor_system_prompt
 
-llm_supervisor = llm.llm_module.with_structured_output(RouteDecision)
+llm_supervisor = llm_module.with_structured_output(RouteDecision)
 
 def supervisor_node(state : AgentState):
     prompts = [supervisor_system_prompt] + state["messages"]
     try:
         route_decision = llm_supervisor.invoke(prompts)
+        print(f"Supervisor : Choice - {route_decision.select}, Reason - {route_decision.reason}")
     except Exception as e:
         route_decision = RouteDecision(
             select = "general_assistant",

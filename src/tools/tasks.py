@@ -31,3 +31,4 @@ def time_until_task(task_id : int) -> str :
     ###TODO: Implement the logic to calculate the time remaining until the task is due. For now, we will just return a placeholder message.
     return f"Time remaining until task with ID {task_id} is due: 2 hours and 30 minutes."
 
+tool_tasks = [add_task, list_tasks, delete_task, update_task, time_until_task]

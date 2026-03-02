@@ -1,14 +1,17 @@
 from tools import tools
-from llm import llm_module
-from state import AgentState
-from prompts import tasks_system_prompt
+
+from agent.llm import llm_module
+from agent.state import AgentState
+from agent.prompts import tasks_system_prompt
 
 llm_task_manager = llm_module.bind_tools(tools=tools)
 
 def task_manager_node(state : AgentState):
     prompts = [tasks_system_prompt] + state["messages"]
     task_manager_response = llm_task_manager.invoke(prompts)
-    return {
-        "messages" : [task_manager_response]
-    }
-
+    tools_called = task_manager_response.tool_calls
+    if tools_called is not None and len(tools_called) > 0:
+        for tool_call in tools_called:
+            tool_name = tool_call["name"]
+            tool_args = tool_call["args"]
+            print(f"Tool Assistant : {tool_name} with arguments: {tool_args}")
