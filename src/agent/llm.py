@@ -2,11 +2,12 @@ import os
 
 from langchain.chat_models import BaseChatModel, init_chat_model
 from langchain_openai.chat_models import ChatOpenAI
-from langchain_classic.chat_models.ollama import ChatOllama
+from langchain_community.chat_models.ollama import ChatOllama
 from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
 
 from enum import Enum
-import settings
+import settings 
+
 class LLM:
     class Cloud(Enum):
         GOOGLE_CHAT = "genai"   # Require GOOGLE_API_KEY in .env to used
@@ -29,6 +30,7 @@ def get_llm (llm : LLM.Cloud | LLM.Local, model : str  = "" ) -> BaseChatModel :
             max_completion_tokens= settings.LLM_MAX_TOKENS
         )
     elif llm == LLM.Cloud.DEEPSEEK:
+        print("Using Deepseek LLM")
         return init_chat_model(
             model = model,
             model_provider= "deepseek",

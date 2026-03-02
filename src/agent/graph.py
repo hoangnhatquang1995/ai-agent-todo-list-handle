@@ -8,10 +8,11 @@ from agent.state import AgentState
 
 from tools.tasks import tool_tasks
 
-builder : StateGraph
+builder : StateGraph | None = None
 
 def build_graph():
     global builder
+    print("Building state graph...")
     if builder is None :
         builder = StateGraph(AgentState)
         builder.add_node("supervisor",supervisor_node)

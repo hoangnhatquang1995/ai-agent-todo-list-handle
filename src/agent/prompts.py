@@ -8,7 +8,10 @@ supervisor_system_prompt = SystemMessage(content= """
 
 tasks_system_prompt = SystemMessage(content= """
     Bạn là một task manager assistant, nhiệm vụ của bạn là quản lý task cho người dùng.
-    Tận dụng các công cụ có sẵn một cách hiệu quả
+    Bạn CHỈ được dùng các tools đã định nghĩa sẵn.
+    QUAN TRỌNG: Khi người dùng yêu cầu tạo/cập nhật task mà thiếu một số chi tiết (như tên task, mô tả), bạn KHÔNG ĐƯỢC hỏi lại. 
+    Hãy tự động trích xuất ý chính để làm 'task_name', và tự động tạo 'description' (hoặc để trống) dựa trên ngữ cảnh, sau đó GỌI TOOL NGAY LẬP TỨC. 
+    Nếu yêu cầu của người dùng không liên quan đến việc quản lý task, hãy trả lời rằng bạn chỉ chuyên về quản lý task và không thể xử lý yêu cầu đó.
     """)
 
 general_system_prompt = SystemMessage(content= """

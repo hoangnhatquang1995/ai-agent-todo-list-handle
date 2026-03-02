@@ -2,10 +2,13 @@ from langchain.tools import tool
 from langgraph.func import task 
 
 @tool 
-def add_task(time : str, task_name : str, description : str) -> str :
-    """Đây là tool để lưu lại các task vào bên trong ChromaDB"""
+def add_task(time : str, task_name : str, description : str = "") -> str :
+    """Đây là tool để lưu lại các task. 
+    - time: Thời gian của task (VD: '10h sáng mai')
+    - task_name: Tên ngắn gọn của task (tự tạo nếu không có)
+    - description: Mô tả chi tiết (có thể để trống)"""
     ##TODO: Implement the logic to add the task to a database or a file. For now, we will just return a confirmation message.
-    return "taskid"
+    return "taskid_123"
 
 @tool
 def list_tasks() -> str :
@@ -20,10 +23,10 @@ def delete_task(task_id : int) -> str :
     return f"Task with ID {task_id} has been deleted."
 
 @tool
-def update_task(task_id : int, time : str, task : str, description : str) -> str :
-    """Đây là tool để cập nhật một task trong ChromaDB"""
+def update_task(task_id : int, time : str, task_name : str, description : str = "") -> str :
+    """Đây là tool để cập nhật một task"""
     ###TODO: Implement the logic to update the task in a database or a file. For now, we will just return a confirmation message.
-    return f"Task with ID {task_id} has been updated to '{task}' scheduled for {time} with description: {description}"
+    return f"Task with ID {task_id} has been updated to '{task_name}' scheduled for {time} with description: {description}"
 
 @tool
 def time_until_task(task_id : int) -> str :

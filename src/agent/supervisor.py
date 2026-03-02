@@ -1,7 +1,7 @@
-from state import AgentState,RouteDecision
+from agent.state import AgentState,RouteDecision
 from agent.llm import llm_module 
 from tools import tools 
-from prompts import supervisor_system_prompt
+from agent.prompts import supervisor_system_prompt
 
 llm_supervisor = llm_module.with_structured_output(RouteDecision)
 
@@ -20,7 +20,10 @@ def supervisor_node(state : AgentState):
     }
 
 def route_condition(state: AgentState) -> str :
-    if state["route_decision"] is None :
+    decision = state.get("route_decision")
+    if decision is None :
+        print("No routing decision from supervisor, defaulting to general_assistant")
         return "general_assistant"
-    return state["route_decision"].select
+    print(f"Routing decision from supervisor: {decision.select} with reason: {decision.reason}")
+    return decision.select
 
