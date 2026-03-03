@@ -42,6 +42,19 @@ def vectorstore_remove_task(task: Task):
     else:
         return f"Task not found"
     
+def vectorstore_find_task(task: Task):
+    search_query = f"Time: {task.time}\nTask Name: {task.task_name}\nDescription: {task.description}"
+    docs = vectorstore.similarity_search(search_query, k=1)
+    if not docs :
+        return None
+    doc = docs[0]
+    print(f"==> doc = {doc.to_json()}")
+    return Task(
+        time=doc.metadata.get("time"),
+        task_name=doc.metadata.get("task_name"),
+        description=doc.metadata.get("description")
+    )
+    
 def vectorstore_get_list() -> List[Task]:
     docs = vectorstore.get()
     tasks = []
